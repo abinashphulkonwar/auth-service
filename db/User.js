@@ -24,9 +24,6 @@ const UserSchema = new Schema(
     sealTimeStamp: {
       type: String,
     },
-    unsealTimeStamp: {
-      type: String,
-    },
     seal: {
       type: Boolean,
     },

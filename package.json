@@ -2,7 +2,7 @@
   "name": "fam",
   "version": "1.0.0",
   "description": "This is for FAM app development",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",

@@ -21,7 +21,7 @@ if (cluster.isMaster) {
   const mongoSanitize = require("express-mongo-sanitize");
 
   const authRoute = require("./routes/auth");
-
+  const sealAccountRoute = require("./routes/account-seal");
   const app = express();
 
   app.use(helmet());
@@ -50,6 +50,7 @@ if (cluster.isMaster) {
   );
 
   app.use("/auth", authRoute);
+  //app.use(sealAccountRoute);
 
   app.use((req, res, next) => {
     res.status(404).json({ err: "route not found" });
