@@ -1,5 +1,8 @@
 const express = require("express");
 const { signUpBussinessAccount } = require("../business-controller/signup");
+const { logInUser } = require("../business-controller/login");
+const { sealAccount } = require("../business-controller/seal-account");
+
 const {
   authBusinessValidation,
   logInBusinessValidation,
@@ -11,6 +14,6 @@ router
   .route("/signup")
   .post(authBusinessValidation, signUpLimite, signUpBussinessAccount);
 
-router.route("/login").post(logInBusinessValidation);
+router.route("/login").post(logInBusinessValidation, logInUser, sealAccount);
 
 module.exports = router;
