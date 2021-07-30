@@ -1,15 +1,36 @@
 const User = require("../../db/user");
 
-module.exports = async (req, res, next) => {
-  console.log(req.body.email);
+const BusinessAccount = require("../../db/Business");
 
-  const findUser = await User.findOne({ email: req.body.email }).select({
-    email: 1,
-  });
-
-  if (findUser) {
-    res.status(404).json({ err: "email already used" });
-    return;
+class UserDublication {
+  constructor(email, phonenumber) {
+    this.email = email;
+    this.phonenumber = phonenumber;
   }
-  next();
-};
+  async validate(type) {
+    try {
+      let accountdb;
+      if (type == "User") {
+        accountdb = await User.findOne({ email: this.email }).select({
+          _id: 1,
+          email: 1,
+        });
+      } else if (type == "Business") {
+        accountdb = await BusinessAccount.findOne({
+          email: this.email,
+          phonenumber: this.phonenumber,
+        }).select({
+          _id: 1,
+          email: 1,
+          phonenumber: 1,
+        });
+      }
+      return accountdb;
+    } catch (err) {
+      console.log(err);
+      return null;
+    }
+  }
+}
+
+module.exports = UserDublication;
