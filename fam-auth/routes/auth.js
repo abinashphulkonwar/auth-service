@@ -12,6 +12,7 @@ const { sealAccount } = require("../controller/seal-account");
 const changePasswordControler = require("../controller/change-password");
 const forgetPasswordControler = require("../controller/forget-password");
 const userConttroler = require("../controller/user");
+const verifyEmailConttroler = require("../controller/email-verify");
 const { userAuthentication } = require("../utils/authentication");
 const {
   authValidationData,
@@ -20,6 +21,8 @@ const {
   forgetasswordValidationData,
 } = require("../utils/authValidation");
 const router = express.Router();
+
+router.route("/email-verify").post(verifyEmailConttroler.verifyEmail);
 
 router.route("/user").get(userAuthentication, userConttroler.getUser);
 
