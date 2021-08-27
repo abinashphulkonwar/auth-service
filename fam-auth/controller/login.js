@@ -9,7 +9,7 @@ exports.logInUser = async (req, res, next) => {
   const { email, password } = req.body;
   const userdb = await User.findOne({ email: email });
   if (!userdb) {
-    res.json("account not found");
+    res.json({ err: "account not found" });
     return;
   }
   if (userdb.seal == true) {
@@ -17,20 +17,17 @@ exports.logInUser = async (req, res, next) => {
     return;
   }
   try {
-
-
     // userdb.loginAttamtData.push({
     //   timestamp: date,
     //   ip: req.ip,
     // });
     const userLogsdb = await new UserLog({
       route: "login",
-      ip: req.ip
-    })
+      ip: req.ip,
+    });
 
     userdb.userLogs.push(userLogsdb);
     await userLogsdb.save();
-
 
     let passwordVal = await bcrypt.compare(password, userdb.passwordhash);
     if (passwordVal) {
@@ -55,13 +52,12 @@ exports.logInUser = async (req, res, next) => {
         res.status(200).json("account seale");
         return;
       }
-      console.log(userdb)
+      console.log(userdb);
       await userdb.save();
       res.status(404).json({ err: "email or password wrong" });
     }
   } catch (err) {
     console.log(err);
-
 
     res.status(404).json({ err: "somthing wrong" });
   }
