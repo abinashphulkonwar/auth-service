@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const UserDublication = require("../utils/mongo/userDuplication");
 
 exports.signUpUser = async (req, res, next) => {
-  const { email, password } = req.body;
+  const { email, username, password } = req.body;
   try {
     const findUserObj = await new UserDublication(email);
     const findUser = await findUserObj.validate("User");
@@ -16,13 +16,14 @@ exports.signUpUser = async (req, res, next) => {
 
     const passwordhash = await bcrypt.hash(password, 12);
 
-    const userdb = await new User({ email, passwordhash });
+    const userdb = await new User({ email, passwordhash, username });
     await userdb.save();
 
     const jwtToken = await jwt.sign(
       {
         email: userdb.email,
         id: userdb._id,
+        username: userdb.username,
       },
       process.env.JWT_KEY
     );

@@ -26,6 +26,7 @@ const Joi = baseJoi.extend(extension);
 module.exports.authValidationData = (req, res, next) => {
   const authValidation = Joi.object({
     email: Joi.string().required().escapeHTML(),
+    username: Joi.string().required().min(7).max(20).escapeHTML(),
     password: Joi.string().required().min(7).max(20).escapeHTML(),
   });
   const { error } = authValidation.validate(req.body);
